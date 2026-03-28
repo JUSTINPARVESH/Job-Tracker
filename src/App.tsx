@@ -7,8 +7,7 @@ import { useState, useEffect, FormEvent, useRef, ChangeEvent } from 'react';
 import { 
   Trash2, Plus, Briefcase, CheckCircle2, Clock, XCircle, Users, 
   Sparkles, Filter, Calendar, Info, Globe, ShieldCheck, ShieldAlert,
-  FileText, Zap, Target, AlertCircle, ChevronDown, ChevronUp, ExternalLink,
-  Moon, Sun
+  FileText, Zap, Target, AlertCircle, ChevronDown, ChevronUp, ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -52,33 +51,33 @@ const EXP_LEVELS = ['Fresher', 'Junior (1-3 years)', 'Mid-level (3-5 years)', 'S
 
 const STATUS_CONFIG = {
   Applied: { 
-    color: 'text-indigo-600 dark:text-indigo-400', 
-    bg: 'bg-indigo-500/10 dark:bg-indigo-500/20', 
-    border: 'border-indigo-100 dark:border-indigo-500/20', 
+    color: 'text-indigo-600', 
+    bg: 'bg-indigo-500/10', 
+    border: 'border-indigo-100', 
     icon: Clock,
     suggestion: "Wait 3-5 days, then follow up with HR.",
     reminder: "Follow up in 3 days"
   },
   Interview: { 
-    color: 'text-amber-600 dark:text-amber-400', 
-    bg: 'bg-amber-500/10 dark:bg-amber-500/20', 
-    border: 'border-amber-100 dark:border-amber-500/20', 
+    color: 'text-amber-600', 
+    bg: 'bg-amber-500/10', 
+    border: 'border-amber-100', 
     icon: Users,
     suggestion: "Prepare for technical and HR questions.",
     reminder: "Review company values"
   },
   Rejected: { 
-    color: 'text-rose-600 dark:text-rose-400', 
-    bg: 'bg-rose-500/10 dark:bg-rose-500/20', 
-    border: 'border-rose-100 dark:border-rose-500/20', 
+    color: 'text-rose-600', 
+    bg: 'bg-rose-500/10', 
+    border: 'border-rose-100', 
     icon: XCircle,
     suggestion: "Analyze gaps and apply for similar roles.",
     reminder: "Update your portfolio"
   },
   Selected: { 
-    color: 'text-emerald-600 dark:text-emerald-400', 
-    bg: 'bg-emerald-500/10 dark:bg-emerald-500/20', 
-    border: 'border-emerald-100 dark:border-emerald-500/20', 
+    color: 'text-emerald-600', 
+    bg: 'bg-emerald-500/10', 
+    border: 'border-emerald-100', 
     icon: CheckCircle2,
     suggestion: "Prepare documents and onboarding steps.",
     reminder: "Check your email for offer details"
@@ -104,24 +103,9 @@ export default function App() {
   const [filter, setFilter] = useState<FilterStatus>('All');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('pro-job-tracker-theme');
-    return saved ? saved === 'dark' : true; // Default to dark
-  });
-
   useEffect(() => {
     localStorage.setItem('pro-job-tracker-apps', JSON.stringify(jobs));
   }, [jobs]);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('pro-job-tracker-theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('pro-job-tracker-theme', 'light');
-    }
-  }, [darkMode]);
 
   const validateWebsite = (url: string) => {
     if (!url) return { isLegit: true, reason: "No website provided" };
@@ -277,46 +261,35 @@ export default function App() {
     : jobs.filter(job => job.status === filter);
 
   return (
-    <div className="min-h-screen pt-12 pb-24 px-4 md:px-8 selection:bg-indigo-500/30 selection:text-white relative transition-colors duration-400">
+    <div className="min-h-screen pt-12 pb-24 px-4 md:px-8 selection:bg-indigo-500/30 relative">
       {/* Decorative Blobs */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 dark:bg-indigo-500/15 blur-[120px] rounded-full animate-float" />
-        <div className="absolute bottom-[10%] right-[-10%] w-[35%] h-[35%] bg-cyan-500/10 dark:bg-cyan-500/15 blur-[120px] rounded-full animate-float" style={{ animationDelay: '-2s' }} />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full animate-float" />
+        <div className="absolute bottom-[10%] right-[-10%] w-[35%] h-[35%] bg-cyan-500/10 blur-[120px] rounded-full animate-float" style={{ animationDelay: '-2s' }} />
       </div>
 
-      <div className="max-w-5xl mx-auto">
-        <nav className="flex justify-end mb-8">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 backdrop-blur-xl shadow-xl text-slate-600 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-all"
-          >
-            {darkMode ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
-          </motion.button>
-        </nav>
-
-        <header className="text-center mb-20 relative">
+      <div className="max-w-4xl mx-auto">
+        <header className="text-center mb-16 relative">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center justify-center p-5 mb-8 rounded-[2rem] bg-indigo-500/10 border border-indigo-500/20 shadow-[0_0_40px_-10px_rgba(99,102,241,0.3)] animate-float"
+            className="inline-flex items-center justify-center p-4 mb-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 shadow-sm animate-float"
           >
-            <Zap className="w-12 h-12 text-indigo-500 dark:text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.8)]" />
+            <Zap className="w-10 h-10 text-indigo-500 drop-shadow-sm" />
           </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white mb-6 leading-tight"
+            className="text-4xl md:text-6xl font-black tracking-tighter text-slate-900 mb-4 leading-tight"
           >
-            Smart AI <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 dark:from-indigo-400 dark:via-purple-400 dark:to-cyan-400">Job Tracker</span>
+            Smart AI <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500">Job Tracker</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-slate-500 dark:text-slate-400 font-medium text-xl leading-relaxed max-w-2xl mx-auto"
+            className="text-slate-500 font-medium text-lg leading-relaxed max-w-xl mx-auto"
           >
             Precision tracking and AI-powered strategy for your next career move.
           </motion.p>
@@ -326,52 +299,52 @@ export default function App() {
           layout
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-[3rem] p-8 md:p-12 mb-20 relative overflow-hidden group"
+          className="glass rounded-[2rem] p-6 md:p-10 mb-12 relative overflow-hidden group shadow-md"
         >
           {/* Inner Glow */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           
-          <form onSubmit={handleAddJob} className="space-y-12 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="space-y-10">
+          <form onSubmit={handleAddJob} className="space-y-10 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-8">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-indigo-400" />
+                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                    <Briefcase className="w-5 h-5 text-indigo-500" />
                   </div>
-                  <h2 className="text-base font-black uppercase tracking-widest text-indigo-400">Application Info</h2>
+                  <h2 className="text-sm font-black uppercase tracking-widest text-indigo-500">Application Info</h2>
                 </div>
                 
-                <div className="space-y-6">
-                  <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Venture / Company</label>
+                <div className="space-y-5">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Venture / Company</label>
                     <input
                       type="text"
                       placeholder="e.g. OpenAI"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
-                      className="px-6 py-4 bg-[var(--input-bg)] border border-black/5 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
+                      className="px-5 py-3.5 bg-[var(--input-bg)] border border-black/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 placeholder:text-slate-400"
                       required
                     />
                   </div>
-                  <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Target Role</label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Target Role</label>
                     <input
                       type="text"
                       placeholder="e.g. LLM Research Engineer"
                       value={role}
                       onChange={(e) => setRole(e.target.value)}
-                      className="px-6 py-4 bg-[var(--input-bg)] border border-black/5 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
+                      className="px-5 py-3.5 bg-[var(--input-bg)] border border-black/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 placeholder:text-slate-400"
                       required
                     />
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-2.5">
-                      <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Pipeline Status</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Pipeline Status</label>
                       <select
                         value={status}
                         onChange={(e) => setStatus(e.target.value as Status)}
-                        className="px-6 py-4 bg-[var(--input-bg)] border border-black/5 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 dark:text-white cursor-pointer shadow-inner"
+                        className="px-5 py-3.5 bg-[var(--input-bg)] border border-black/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 cursor-pointer"
                       >
                         <option value="Applied">Applied</option>
                         <option value="Interview">Interview</option>
@@ -379,67 +352,67 @@ export default function App() {
                         <option value="Selected">Selected</option>
                       </select>
                     </div>
-                    <div className="flex flex-col gap-2.5">
-                      <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Sourced From</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Sourced From</label>
                       <input
                         type="text"
                         placeholder="Wellfound"
                         value={portal}
                         onChange={(e) => setPortal(e.target.value)}
-                        className="px-6 py-4 bg-[var(--input-bg)] border border-black/5 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
+                        className="px-5 py-3.5 bg-[var(--input-bg)] border border-black/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 placeholder:text-slate-400"
                       />
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Company Nexus (URL)</label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Company Nexus (URL)</label>
                     <div className="relative group">
-                      <Globe className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400 transition-colors" />
+                      <Globe className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                       <input
                         type="text"
                         placeholder="openai.com"
                         value={website}
                         onChange={(e) => setWebsite(e.target.value)}
-                        className="w-full pl-14 pr-6 py-4 bg-[var(--input-bg)] border border-black/5 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
+                        className="w-full pl-12 pr-5 py-3.5 bg-[var(--input-bg)] border border-black/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 placeholder:text-slate-400"
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-10">
+              <div className="space-y-8">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+                  <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-cyan-600" />
                   </div>
-                  <h2 className="text-base font-black uppercase tracking-widest text-cyan-600 dark:text-cyan-400">Intelligence Matrix</h2>
+                  <h2 className="text-sm font-black uppercase tracking-widest text-cyan-600">Intelligence Matrix</h2>
                 </div>
 
                 <div className="space-y-6">
-                  <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Job Description Core</label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Job Description Core</label>
                     <textarea
                       placeholder="Input full JD for matching engine..."
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="px-6 py-5 bg-[var(--input-bg)] border border-black/5 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 dark:text-white h-44 resize-none text-sm leading-relaxed placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
+                      className="px-5 py-4 bg-[var(--input-bg)] border border-black/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all font-bold text-slate-900 h-40 resize-none text-sm leading-relaxed placeholder:text-slate-400"
                     />
                   </div>
                   
-                  <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Resume Payload</label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Resume Payload</label>
                     <div 
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-black/10 dark:border-white/5 rounded-[2rem] p-8 flex flex-col items-center justify-center gap-4 bg-[var(--input-bg)] hover:bg-black/5 dark:hover:bg-white/5 hover:border-indigo-500/40 transition-all cursor-pointer group shadow-sm"
+                      className="border-2 border-dashed border-black/10 rounded-xl p-6 flex flex-col items-center justify-center gap-3 bg-[var(--input-bg)] hover:bg-black/5 hover:border-indigo-500/40 transition-all cursor-pointer group shadow-sm"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-white/60 dark:bg-slate-800 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-500">
-                        <FileText className="w-7 h-7 text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" />
+                      <div className="w-12 h-12 rounded-xl bg-white border border-black/5 flex items-center justify-center group-hover:scale-105 transition-all">
+                        <FileText className="w-6 h-6 text-slate-400 group-hover:text-indigo-500" />
                       </div>
                       <div className="text-center">
-                        <span className="block text-sm font-black text-slate-700 dark:text-slate-200 mb-1">
+                        <span className="block text-sm font-black text-slate-700 mb-1">
                           {resumeName || 'Upload Resume Context'}
                         </span>
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest">
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">
                           {resumeName ? 'Payload Active ✅' : 'Analyze PDF/TXT profiles'}
                         </p>
                       </div>
@@ -458,29 +431,29 @@ export default function App() {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-4 bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-[length:200%_auto] hover:bg-right text-white font-black py-6 rounded-[2rem] transition-all shadow-[0_20px_40px_-15px_rgba(79,70,229,0.4)] active:scale-[0.98] text-xl"
+              className="w-full flex items-center justify-center gap-4 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-black py-5 rounded-2xl transition-all shadow-md active:scale-[0.98] text-lg lg:text-xl"
             >
-              <Zap className="w-7 h-7 stroke-[3px]" />
+              <Zap className="w-6 h-6 stroke-[3px]" />
               Initialize Engine
             </button>
           </form>
         </motion.section>
 
         {/* Status Hub */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-8 mb-16 px-4">
-          <div className="flex items-center gap-4 bg-black/5 dark:bg-white/5 px-6 py-3 rounded-2xl border border-black/5 dark:border-white/5 backdrop-blur-md">
-            <Filter className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
-            <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Tracking Hub</span>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12 px-4">
+          <div className="flex items-center gap-3 bg-black/5 px-5 py-2.5 rounded-xl border border-black/5 backdrop-blur-md">
+            <Filter className="w-4 h-4 text-indigo-500" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Tracking Hub</span>
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar w-full sm:w-auto p-1">
+          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar w-full sm:w-auto p-1">
             {['All', 'Applied', 'Interview', 'Rejected', 'Selected'].map((s) => (
               <button
                 key={s}
                 onClick={() => setFilter(s as FilterStatus)}
-                className={`px-7 py-3 rounded-2xl text-[11px] font-black transition-all whitespace-nowrap border-2 ${
+                className={`px-6 py-2.5 rounded-xl text-[10px] font-black transition-all whitespace-nowrap border-2 ${
                   filter === s 
-                    ? 'bg-indigo-500 border-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' 
-                    : 'bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/5 text-slate-500 hover:text-indigo-600 dark:hover:text-slate-300 hover:border-black/10 dark:hover:border-white/10'
+                    ? 'bg-indigo-500 border-indigo-500 text-white shadow-sm' 
+                    : 'bg-black/5 border-black/5 text-slate-500 hover:text-indigo-600 hover:border-black/10'
                 }`}
               >
                 {s}
@@ -499,11 +472,11 @@ export default function App() {
               >
                 <div className="absolute inset-0 bg-indigo-500/5 animate-pulse" />
                 <div className="relative z-10">
-                  <div className="bg-slate-200 dark:bg-slate-800/60 w-28 h-28 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 shadow-[0_0_50px_rgba(99,102,241,0.15)] ring-1 ring-black/5 dark:ring-white/10">
-                    <Briefcase className="w-12 h-12 text-slate-400 dark:text-slate-500" />
+                  <div className="bg-slate-200 w-24 h-24 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm ring-1 ring-black/5">
+                    <Briefcase className="w-10 h-10 text-slate-400" />
                   </div>
-                  <h3 className="text-slate-900 dark:text-white font-black text-3xl mb-3 tracking-tighter">Deck is Empty</h3>
-                  <p className="text-slate-500 dark:text-slate-500 font-bold max-w-sm mx-auto px-6">
+                  <h3 className="text-slate-900 font-black text-2xl mb-2 tracking-tighter">Deck is Empty</h3>
+                  <p className="text-slate-500 font-bold max-w-sm mx-auto px-6">
                     {filter === 'All' 
                       ? "Ready to scale? Initialize your first career thread above." 
                       : `No active signals for "${filter}" detected.`}
@@ -514,64 +487,76 @@ export default function App() {
               filteredJobs.map((job) => {
                 const config = STATUS_CONFIG[job.status];
                 const StatusIcon = config.icon;
-                const matchColor = job.analysis.matchPercentage >= 80 ? 'text-emerald-600 dark:text-emerald-400' : job.analysis.matchPercentage >= 70 ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400';
+                const matchColor = job.analysis.matchPercentage >= 80 ? 'text-emerald-600' : job.analysis.matchPercentage >= 70 ? 'text-amber-600' : 'text-rose-600';
                 const matchBg = job.analysis.matchPercentage >= 80 ? 'bg-emerald-500/10' : job.analysis.matchPercentage >= 70 ? 'bg-amber-500/10' : 'bg-rose-500/10';
-                const matchBorder = job.analysis.matchPercentage >= 80 ? 'border-emerald-500/20' : job.analysis.matchPercentage >= 70 ? 'border-amber-500/20' : 'border-rose-500/20';
+                const matchBorder = job.analysis.matchPercentage >= 80 ? 'border-emerald-500/10' : job.analysis.matchPercentage >= 70 ? 'border-amber-500/10' : 'border-rose-500/10';
                 
                 return (
                   <motion.div
                     key={job.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
                     className="group"
                   >
-                    <div className="glass rounded-[3rem] p-8 md:p-10 shadow-2xl transition-all duration-500 hover:shadow-indigo-500/10 border-white/5 ring-1 ring-white/5 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-white/0 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <div className="glass rounded-[2rem] p-6 md:p-8 shadow-md transition-all duration-300 hover:shadow-lg border-white/10 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       
-                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10 relative z-10">
-                        <div className="flex items-start lg:items-center gap-8">
-                          <div className={`p-6 rounded-[2rem] ${config.bg} ${config.color} border border-black/5 dark:border-white/5 shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
-                            <StatusIcon className="w-10 h-10 stroke-[2px]" />
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-6 text-center sm:text-left">
+                          <div className={`p-5 rounded-2xl ${config.bg} ${config.color} border border-black/5 shadow-sm group-hover:scale-105 transition-all duration-500`}>
+                            <StatusIcon className="w-8 h-8 stroke-[2px]" />
                           </div>
                           <div>
-                            <div className="flex flex-wrap items-center gap-4 mb-3">
-                              <h3 className="font-black text-3xl text-slate-900 dark:text-white tracking-tight">{job.company}</h3>
-                              <span className={`inline-flex items-center justify-center px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border shadow-2xl ${config.bg} ${config.color} border-black/5 dark:border-white/10`}>
+                            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-2">
+                              {job.website ? (
+                                <a 
+                                  href={job.website.startsWith('http') ? job.website : `https://${job.website}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="group/link flex items-center gap-2 hover:text-indigo-600 transition-colors"
+                                >
+                                  <h3 className="font-black text-2xl text-slate-900 tracking-tight group-hover/link:text-indigo-600 transition-colors">{job.company}</h3>
+                                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover/link:text-indigo-600 transition-colors" />
+                                </a>
+                              ) : (
+                                <h3 className="font-black text-2xl text-slate-900 tracking-tight">{job.company}</h3>
+                              )}
+                              <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border shadow-sm ${config.bg} ${config.color} border-black/5`}>
                                 {job.status}
                               </span>
                             </div>
-                            <p className="text-slate-500 dark:text-slate-400 font-bold text-xl mb-6 tracking-tight">{job.role}</p>
-                            <div className="flex flex-wrap items-center gap-6">
-                              <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 bg-black/5 dark:bg-white/5 px-4 py-2 rounded-2xl">
-                                <Calendar className="w-4 h-4 text-indigo-500 dark:text-indigo-400" /> {job.date}
+                            <p className="text-slate-500 font-bold text-lg mb-4 tracking-tight">{job.role}</p>
+                            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
+                              <span className="text-slate-500 text-[9px] font-black uppercase tracking-[0.15em] flex items-center gap-2 bg-black/5 px-3 py-1.5 rounded-xl">
+                                <Calendar className="w-3.5 h-3.5 text-indigo-500" /> {job.date}
                               </span>
-                              <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 bg-black/5 dark:bg-white/5 px-4 py-2 rounded-2xl">
-                                <Globe className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> {job.portal || 'Direct'}
+                              <span className="text-slate-500 text-[9px] font-black uppercase tracking-[0.15em] flex items-center gap-2 bg-black/5 px-3 py-1.5 rounded-xl">
+                                <Globe className="w-3.5 h-3.5 text-cyan-600" /> {job.portal || 'Direct'}
                               </span>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-6 self-end lg:self-auto">
-                          <div className={`flex flex-col items-center justify-center w-28 h-28 rounded-[2.5rem] ${matchBg} ${matchColor} border-2 ${matchBorder} shadow-[0_0_30px_rgba(0,0,0,0.2)] group-hover:shadow-indigo-500/20 transition-all duration-500 relative overflow-hidden`}>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                            <span className="text-4xl font-black relative z-10">{job.analysis.matchPercentage}%</span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 relative z-10">Score</span>
+                        <div className="flex items-center justify-center sm:justify-end gap-5">
+                          <div className={`flex flex-col items-center justify-center w-24 h-24 rounded-2xl ${matchBg} ${matchColor} border ${matchBorder} shadow-sm group-hover:shadow-md transition-all duration-500 relative overflow-hidden`}>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
+                            <span className="text-3xl font-black relative z-10">{job.analysis.matchPercentage}%</span>
+                            <span className="text-[9px] font-black uppercase tracking-[0.15em] opacity-60 relative z-10">Score</span>
                           </div>
-                          <div className="flex flex-col gap-3">
+                          <div className="flex flex-col gap-2">
                             <button
                               onClick={() => toggleDetails(job.id)}
-                              className="p-5 bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 rounded-2xl transition-all border border-black/5 dark:border-white/10 shadow-xl"
+                              className="p-4 bg-black/5 text-slate-500 hover:text-indigo-600 hover:bg-black/10 rounded-xl transition-all border border-black/5 shadow-sm"
                             >
-                              {job.showDetails ? <ChevronUp className="w-7 h-7 stroke-[3px]" /> : <ChevronDown className="w-7 h-7 stroke-[3px]" />}
+                              {job.showDetails ? <ChevronUp className="w-6 h-6 stroke-[3px]" /> : <ChevronDown className="w-6 h-6 stroke-[3px]" />}
                             </button>
                             <button
                               onClick={() => deleteJob(job.id)}
-                              className="p-5 bg-rose-500/5 text-rose-500/40 hover:text-rose-400 hover:bg-rose-500/10 rounded-2xl transition-all border border-transparent hover:border-rose-500/20"
+                              className="p-4 bg-rose-500/5 text-rose-500/30 hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all border border-transparent shadow-sm"
                             >
-                              <Trash2 className="w-7 h-7" />
+                              <Trash2 className="w-6 h-6" />
                             </button>
                           </div>
                         </div>
@@ -583,46 +568,46 @@ export default function App() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="mt-12 overflow-hidden"
+                            className="mt-8 overflow-hidden"
                           >
-                            <div className="pt-12 border-t-2 border-white/5 grid grid-cols-1 lg:grid-cols-2 gap-12 relative">
-                              <div className="space-y-10">
+                            <div className="pt-8 border-t border-black/5 grid grid-cols-1 lg:grid-cols-2 gap-10 relative">
+                              <div className="space-y-8">
                                 <div className="flex items-center justify-between">
-                                  <h4 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 flex items-center gap-3">
-                                    <Sparkles className="w-5 h-5" /> Intelligence Synthesis
+                                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 flex items-center gap-2">
+                                    <Sparkles className="w-4 h-4" /> Intelligence Synthesis
                                   </h4>
-                                  <div className={`flex items-center gap-3 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] ${job.analysis.isLegit ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
-                                    {job.analysis.isLegit ? <ShieldCheck className="w-4 h-4" /> : <ShieldAlert className="w-4 h-4" />}
+                                  <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.15em] ${job.analysis.isLegit ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/10' : 'bg-rose-500/10 text-rose-600 border border-rose-500/10'}`}>
+                                    {job.analysis.isLegit ? <ShieldCheck className="w-3.5 h-3.5" /> : <ShieldAlert className="w-3.5 h-3.5" />}
                                     {job.analysis.isLegit ? 'Authentic' : 'Warning'}
                                   </div>
                                 </div>
 
-                                  <div className="space-y-6">
-                                    <div className="p-8 bg-black/5 dark:bg-white/5 rounded-[2.5rem] border border-black/5 dark:border-white/5 relative overflow-hidden">
+                                  <div className="space-y-4">
+                                    <div className="p-6 bg-black/[0.02] rounded-2xl border border-black/5 relative overflow-hidden">
                                       <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500" />
-                                      <p className="text-slate-600 dark:text-slate-300 font-bold leading-relaxed italic text-lg">
+                                      <p className="text-slate-600 font-bold leading-relaxed italic text-base">
                                         “{job.analysis.summary}”
                                       </p>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-6">
-                                      <div className="bg-black/5 dark:bg-white/5 p-6 rounded-[2rem] border border-black/5 dark:border-white/5 shadow-inner">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Seniority</p>
-                                        <p className="text-lg font-black text-slate-700 dark:text-slate-200">{job.analysis.experience}</p>
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <div className="bg-black/[0.02] p-4 rounded-xl border border-black/5 shadow-sm">
+                                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Seniority</p>
+                                        <p className="text-base font-black text-slate-700">{job.analysis.experience}</p>
                                       </div>
-                                      <div className="bg-black/5 dark:bg-white/5 p-6 rounded-[2rem] border border-black/5 dark:border-white/5 shadow-inner">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">Format</p>
-                                        <p className="text-lg font-black text-slate-700 dark:text-slate-200">{job.analysis.jobType}</p>
+                                      <div className="bg-black/[0.02] p-4 rounded-xl border border-black/5 shadow-sm">
+                                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Format</p>
+                                        <p className="text-base font-black text-slate-700">{job.analysis.jobType}</p>
                                       </div>
                                     </div>
 
                                     {job.description && (
-                                      <div className="bg-black/5 dark:bg-white/5 p-8 rounded-[2.5rem] border border-black/5 dark:border-white/5 shadow-2xl">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-3">
-                                          <FileText className="w-4 h-4 text-indigo-500 dark:text-indigo-400" /> Preserved Context
+                                      <div className="bg-black/[0.02] p-6 rounded-2xl border border-black/5 shadow-sm">
+                                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+                                          <FileText className="w-3.5 h-3.5 text-indigo-500" /> Preserved Context
                                         </p>
-                                        <div className="max-h-40 overflow-y-auto pr-3 custom-scrollbar">
-                                          <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed whitespace-pre-wrap font-medium">
+                                        <div className="max-h-36 overflow-y-auto pr-2 custom-scrollbar">
+                                          <p className="text-xs text-slate-500 leading-relaxed whitespace-pre-wrap font-medium">
                                             {job.description}
                                           </p>
                                         </div>
@@ -631,17 +616,17 @@ export default function App() {
                                   </div>
                               </div>
 
-                              <div className="space-y-10">
-                                <h4 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 flex items-center gap-3">
-                                  <Target className="w-5 h-5" /> Competency Matrix
+                              <div className="space-y-8">
+                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 flex items-center gap-2">
+                                  <Target className="w-4 h-4" /> Competency Matrix
                                 </h4>
                                 
-                                <div className="space-y-8">
+                                <div className="space-y-6">
                                   <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 ml-1">Target Skillsets</p>
-                                    <div className="flex flex-wrap gap-3">
+                                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Target Skillsets</p>
+                                    <div className="flex flex-wrap gap-2">
                                       {job.analysis.skills.map(skill => (
-                                        <span key={skill} className="px-5 py-2.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 rounded-2xl text-[12px] font-black border border-indigo-500/20 shadow-xl transition-all hover:bg-indigo-500 hover:text-white">
+                                        <span key={skill} className="px-4 py-2 bg-indigo-500/5 text-indigo-600 rounded-xl text-[11px] font-black border border-indigo-500/10 shadow-sm transition-all hover:bg-indigo-500 hover:text-white">
                                           {skill}
                                         </span>
                                       ))}
@@ -650,10 +635,10 @@ export default function App() {
 
                                   {job.analysis.missingSkills.length > 0 && (
                                     <div>
-                                      <p className="text-[10px] font-black uppercase tracking-widest text-rose-500/60 mb-4 ml-1">Critical Deficits</p>
-                                      <div className="flex flex-wrap gap-3">
+                                      <p className="text-[9px] font-black uppercase tracking-widest text-rose-500/60 mb-3 ml-1">Critical Deficits</p>
+                                      <div className="flex flex-wrap gap-2">
                                         {job.analysis.missingSkills.map(skill => (
-                                          <span key={skill} className="px-5 py-2.5 bg-rose-500/10 text-rose-400 rounded-2xl text-[12px] font-black border border-rose-500/20">
+                                          <span key={skill} className="px-4 py-2 bg-rose-500/5 text-rose-600 rounded-xl text-[11px] font-black border border-rose-500/10">
                                             {skill}
                                           </span>
                                         ))}
@@ -661,18 +646,18 @@ export default function App() {
                                     </div>
                                   )}
 
-                                  <div className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-slate-900 text-white p-10 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(79,70,229,0.5)] relative overflow-hidden group/card ring-1 ring-white/20">
-                                    <Sparkles className="absolute -right-10 -bottom-10 w-48 h-48 text-white/10 rotate-12 group-hover/card:rotate-45 transition-transform duration-1000" />
+                                  <div className="bg-gradient-to-br from-indigo-500 to-indigo-700 text-white p-6 rounded-2xl shadow-md relative overflow-hidden group/card">
+                                    <Sparkles className="absolute -right-6 -bottom-6 w-32 h-32 text-white/10 rotate-12 group-hover/card:rotate-45 transition-transform duration-1000" />
                                     <div className="relative z-10">
-                                      <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-4">Strategic Recommendation</p>
-                                      <p className="text-xl font-bold leading-tight mb-8">
+                                      <p className="text-[9px] font-black uppercase tracking-[0.2em] opacity-60 mb-3">Strategic Recommendation</p>
+                                      <p className="text-lg font-bold leading-tight mb-6">
                                         {job.analysis.suggestion}
                                       </p>
-                                      <div className="flex items-center gap-4 bg-white/10 px-5 py-4 rounded-2xl border border-white/10 backdrop-blur-md">
-                                        <Clock className="w-6 h-6 text-indigo-300" />
+                                      <div className="flex items-center gap-3 bg-white/10 px-4 py-3 rounded-xl border border-white/10 backdrop-blur-md">
+                                        <Clock className="w-5 h-5 text-indigo-100" />
                                         <div className="flex flex-col">
-                                          <span className="text-[8px] font-black uppercase tracking-widest opacity-60">Follow-up Ritual</span>
-                                          <span className="text-xs font-black text-white">{config.reminder}</span>
+                                          <span className="text-[7px] font-black uppercase tracking-widest opacity-60">Follow-up Ritual</span>
+                                          <span className="text-[10px] font-black text-white">{config.reminder}</span>
                                         </div>
                                       </div>
                                     </div>
